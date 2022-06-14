@@ -5,38 +5,45 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour {
     public float speed = 10f;
+    public Bounds bounds;
 
+    private const float HalfHeight = 0.5f;
+    
     private float gameFieldTop;
     private float gameFieldBottom;
-    private float halfHeight = 0.5f;
-    
+
+    private Vector3 initialPosition;
+
+    private PaddleController controller;
+
     private void Start() {
     }
 
-    public void Init(float screenHeight) {
+    public void Init(float screenHeight, PaddleController paddleController) {
         gameFieldTop = screenHeight;
         gameFieldBottom = -screenHeight;
+        controller = paddleController;
+        this.initialPosition = transform.position;
     }
 
-    void Update() {
-        float movementSpeed = GetMovementSpeed();
+    public void Reset() {
+        transform.position = this.initialPosition;
+    }
+
+    public void UpdatePosition() {
+        float movementSpeed = controller.GetMovementSpeed(speed);
         if (!Mathf.Approximately(movementSpeed, 0f)) {
             Vector3 currentPos = transform.position;
             float nextPosY = currentPos.y + movementSpeed;
-            nextPosY = Mathf.Clamp(nextPosY, gameFieldBottom + halfHeight, gameFieldTop - halfHeight);
-            currentPos.y = nextPosY;
+            currentPos.y = Mathf.Clamp(nextPosY, gameFieldBottom + HalfHeight, gameFieldTop - HalfHeight);
             transform.position = currentPos;
+            this.bounds.center = currentPos;
         }
     }
-
-    private float GetMovementSpeed() {
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            return speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.DownArrow)) {
-           return -speed * Time.deltaTime;
-        }
-
-        return 0f;
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(this.bounds.center, this.bounds.size);
     }
 }
