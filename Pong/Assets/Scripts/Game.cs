@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -35,60 +33,60 @@ public class Game : MonoBehaviour {
         Paddle[] paddles = FindObjectsOfType<Paddle>();
         Assert.IsTrue(paddles.Length == 2, "There are not two paddles in the scene");
         if (paddles[0].transform.position.x < 0f) {
-            this.leftPaddle = paddles[0];
-            this.rightPaddle = paddles[1];
+            leftPaddle = paddles[0];
+            rightPaddle = paddles[1];
         }
         else {
-            this.leftPaddle = paddles[1];
-            this.rightPaddle = paddles[0];
+            leftPaddle = paddles[1];
+            rightPaddle = paddles[0];
         }
         
-        float fieldHalfHeight = this.fieldBounds.extents.y; 
-        this.leftPaddle.Init(fieldHalfHeight);
-        this.rightPaddle.Init(fieldHalfHeight);
+        float fieldHalfHeight = fieldBounds.extents.y; 
+        leftPaddle.Init(fieldHalfHeight);
+        rightPaddle.Init(fieldHalfHeight);
         
         
         
         ball = FindObjectOfType<Ball>();
-        ball.Init(fieldHalfHeight, this.leftPaddle, this.rightPaddle);
+        ball.Init(fieldHalfHeight, leftPaddle, rightPaddle);
         
         
-        leftPaddleController = new PlayerPaddleController(this.leftPaddle);
-        rightPaddleController = new AiPadlleController(this.rightPaddle, this.ball);
+        leftPaddleController = new PlayerPaddleController(leftPaddle);
+        rightPaddleController = new AiPaddleController(rightPaddle, ball);
         
 
         // UI
         score = new Score();
-        score.Init(this.ball, this.fieldBounds.extents.x);
+        score.Init(ball, fieldBounds.extents.x);
         
         UIScore[] scoreLabels = FindObjectsOfType<UIScore>();
         Assert.IsTrue(scoreLabels.Length == 2, "There are not two score labels in the scene");
         if (scoreLabels[0].transform.position.x < 0f) {
-            this.leftScoreLabel = scoreLabels[0];
-            this.rightScoreLabel = scoreLabels[1];
+            leftScoreLabel = scoreLabels[0];
+            rightScoreLabel = scoreLabels[1];
         }
         else {
-            this.leftScoreLabel = scoreLabels[1];
-            this.rightScoreLabel = scoreLabels[0];
+            leftScoreLabel = scoreLabels[1];
+            rightScoreLabel = scoreLabels[0];
         }
 
-        this.winnerMessage = FindObjectOfType<WinnerMessage>(true);
-        this.winnerMessage.Hide();
+        winnerMessage = FindObjectOfType<WinnerMessage>(true);
+        winnerMessage.Hide();
         
-        this.restartMessage.gameObject.SetActive(false);
+        restartMessage.gameObject.SetActive(false);
     }
 
     private void Update() {
         switch (state) {
             case State.WaitingToStart:
-                this.WaitForInput();
+                WaitForInput();
                 break;
             case State.Playing:
                 UpdateGameplay();
                 break;
             case State.GameOver:
-                this.winnerMessage.Show(this.score);
-                StartCoroutine(this.DelayRestartMessage());
+                winnerMessage.Show(score);
+                StartCoroutine(DelayRestartMessage());
                 state = State.RetryMessage;
                 break;
             case State.RetryMessage:
@@ -100,54 +98,54 @@ public class Game : MonoBehaviour {
 
     private IEnumerator DelayRestartMessage() {
         yield return new WaitForSeconds(2f);
-        this.restartMessage.gameObject.SetActive(true);
-        this.state = State.WaitingToStart;
+        restartMessage.gameObject.SetActive(true);
+        state = State.WaitingToStart;
     }
     
 
     private void WaitForInput() {
         if (Input.anyKeyDown) {
             // reset all here
-            this.ball.Serve();
+            ball.Serve();
             score.Reset();
-            leftScoreLabel.UpdateScore(this.score.LeftScore);
-            this.rightScoreLabel.UpdateScore(this.score.RightScore);
-            this.winnerMessage.Hide();
-            this.restartMessage.gameObject.SetActive(false);
+            leftScoreLabel.UpdateScore(score.LeftScore);
+            rightScoreLabel.UpdateScore(score.RightScore);
+            winnerMessage.Hide();
+            restartMessage.gameObject.SetActive(false);
             state = State.Playing;
         }
     }
 
     private void UpdateGameplay() {
-        this.leftPaddleController.Update();
-        this.rightPaddleController.Update();
-        this.ball.UpdatePosition();
+        leftPaddleController.Update();
+        rightPaddleController.Update();
+        ball.UpdatePosition();
 
-        this.score.Update();
-        if (this.score.NewPointScoredInThisFrame) {
-            leftScoreLabel.UpdateScore(this.score.LeftScore);
-            this.rightScoreLabel.UpdateScore(this.score.RightScore);
+        score.Update();
+        if (score.NewPointScoredInThisFrame) {
+            leftScoreLabel.UpdateScore(score.LeftScore);
+            rightScoreLabel.UpdateScore(score.RightScore);
 
-            if (this.score.LeftScore == scoreToWin || this.score.RightScore == scoreToWin)
-                this.state = State.GameOver;
+            if (score.LeftScore == scoreToWin || score.RightScore == scoreToWin)
+                state = State.GameOver;
             else
-                this.ball.Serve();
+                ball.Serve();
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
-            this.Reset();
+            Reset();
         }
     }
 
     private void Reset() {
-        this.leftPaddleController.Reset();
-        this.rightPaddleController.Reset();
-        this.ball.Reset();
+        leftPaddleController.Reset();
+        rightPaddleController.Reset();
+        ball.Reset();
     }
     
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.fieldBounds.center, this.fieldBounds.size);
+        Gizmos.DrawWireCube(fieldBounds.center, fieldBounds.size);
     }
 }

@@ -8,7 +8,7 @@ public class UIScore : MonoBehaviour {
     private Text label;
 
     public void UpdateScore(int score) {
-        this.label.text = score.ToString();
+        label.text = score.ToString();
     }
     
 }

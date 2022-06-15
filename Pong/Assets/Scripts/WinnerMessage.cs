@@ -17,7 +17,7 @@ public class WinnerMessage : MonoBehaviour
 
     public void Show(Score score) {
         Vector3 pos = rectTransform.localPosition;
-        pos.x = score.LeftScore > score.RightScore ? -this.distanceFromCenter : this.distanceFromCenter;
+        pos.x = score.LeftScore > score.RightScore ? -distanceFromCenter : distanceFromCenter;
         rectTransform.localPosition = pos;
         gameObject.SetActive(true);
     }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Paddle : MonoBehaviour {
@@ -14,36 +11,29 @@ public class Paddle : MonoBehaviour {
 
     private Vector3 initialPosition;
 
-    // private PlayerPaddleController controller;
-
-    private void Start() {
-    }
-
-    public void Init(float screenHeight/*, PlayerPaddleController playerPaddleController*/) {
+    public void Init(float screenHeight) {
         gameFieldTop = screenHeight;
         gameFieldBottom = -screenHeight;
-        // controller = playerPaddleController;
-        this.initialPosition = transform.position;
+        initialPosition = transform.position;
     }
 
     public void Reset() {
-        transform.position = this.initialPosition;
+        transform.position = initialPosition;
     }
 
     public void UpdatePosition(float movementSpeed) {
-        // float movementSpeed = controller.GetMovementSpeed(speed);
         if (!Mathf.Approximately(movementSpeed, 0f)) {
             Vector3 currentPos = transform.position;
             float nextPosY = currentPos.y + movementSpeed;
             currentPos.y = Mathf.Clamp(nextPosY, gameFieldBottom + HalfHeight, gameFieldTop - HalfHeight);
             transform.position = currentPos;
-            this.bounds.center = currentPos;
+            bounds.center = currentPos;
         }
     }
     
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(this.bounds.center, this.bounds.size);
+        Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
 }

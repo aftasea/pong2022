@@ -27,19 +27,19 @@ public class Score {
     }
 
     public void Reset() {
-        this.LeftScore = 0;
-        this.RightScore = 0;
+        LeftScore = 0;
+        RightScore = 0;
     }
     
     public void Update() {
-        this.NewPointScoredInThisFrame = false;
-        if (this.ball.transform.position.x > fieldWidthHalf) {
-            this.LeftScore++;
-            this.NewPointScoredInThisFrame = true;
+        NewPointScoredInThisFrame = false;
+        if (ball.transform.position.x > fieldWidthHalf) {
+            LeftScore++;
+            NewPointScoredInThisFrame = true;
         }
-        else if (this.ball.transform.position.x < -fieldWidthHalf) {
-            this.RightScore++;
-            this.NewPointScoredInThisFrame = true;
+        else if (ball.transform.position.x < -fieldWidthHalf) {
+            RightScore++;
+            NewPointScoredInThisFrame = true;
         }
     }
 }

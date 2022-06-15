@@ -20,71 +20,64 @@ public class Ball : MonoBehaviour
     private Paddle leftPaddle;
     private Paddle rightPaddle;
     private bool canMove;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
     
     public void Init(float screenHeight, Paddle leftPaddle, Paddle rightPaddle) {
         gameFieldTop = screenHeight;
         gameFieldBottom = -screenHeight;
-        this.direction = direction.normalized;
+        direction = direction.normalized;
         this.leftPaddle = leftPaddle;
         this.rightPaddle = rightPaddle;
-        this.Reset();
+        Reset();
     }
 
     public void Reset() {
         transform.position = Vector3.zero;
-        this.speed = this.initialSpeed;
+        speed = initialSpeed;
     }
 
     public void UpdatePosition() {
-        if (!this.canMove)
+        if (!canMove)
             return;
         
-        float distance = this.speed * Time.deltaTime;
+        float distance = speed * Time.deltaTime;
         Vector3 currentPos = transform.position;
-        Vector3 targetPos = currentPos + (this.direction * distance);
+        Vector3 targetPos = currentPos + (direction * distance);
 
-        if (targetPos.y > 0f && targetPos.y + HalfSize > this.gameFieldTop) {
-            targetPos.y = this.gameFieldTop - HalfSize;
-            this.direction.y *= -1;
+        if (targetPos.y > 0f && targetPos.y + HalfSize > gameFieldTop) {
+            targetPos.y = gameFieldTop - HalfSize;
+            direction.y *= -1;
         }
-        else if (targetPos.y < 0f && targetPos.y - HalfSize < this.gameFieldBottom) {
-            targetPos.y = this.gameFieldBottom + HalfSize;
-            this.direction.y *= -1;
+        else if (targetPos.y < 0f && targetPos.y - HalfSize < gameFieldBottom) {
+            targetPos.y = gameFieldBottom + HalfSize;
+            direction.y *= -1;
         }
         
-        var hit = Physics2D.Raycast(currentPos, this.direction, distance);
+        var hit = Physics2D.Raycast(currentPos, direction, distance);
         if (hit) {
             Paddle paddle;
-            if (this.direction.x > 0f) {
-                paddle = this.rightPaddle;
-                targetPos.x = paddle.transform.position.x - paddle.bounds.extents.x - this.bounds.extents.x;
+            if (direction.x > 0f) {
+                paddle = rightPaddle;
+                targetPos.x = paddle.transform.position.x - paddle.bounds.extents.x - bounds.extents.x;
             }
             else {
                 paddle = this.leftPaddle;
-                targetPos.x = paddle.transform.position.x + paddle.bounds.extents.x + this.bounds.extents.x;
+                targetPos.x = paddle.transform.position.x + paddle.bounds.extents.x + bounds.extents.x;
             }
             this.BounceX();
 
             float distanceFromCenter = targetPos.y - paddle.transform.position.y;
             float ratio = distanceFromCenter / paddle.bounds.size.y;
-            this.direction.y = ratio;
-            this.direction = this.direction.normalized;
+            direction.y = ratio;
+            direction = direction.normalized;
         }
         
         transform.position = targetPos;
-        this.bounds.center = targetPos;
+        bounds.center = targetPos;
     }
 
     private void BounceX() {
-        this.direction.x *= -1;
-        speed = Mathf.Min(speed + hitAcceleration, this.maxSpeed);
+        direction.x *= -1;
+        speed = Mathf.Min(speed + hitAcceleration, maxSpeed);
     }
     
     void OnDrawGizmos()
@@ -98,9 +91,9 @@ public class Ball : MonoBehaviour
     }
 
     private IEnumerator ServeCo() {
-        this.canMove = false;
-        this.Reset();
+        canMove = false;
+        Reset();
         yield return new WaitForSeconds(1.5f);
-        this.canMove = true;
+        canMove = true;
     }
 }

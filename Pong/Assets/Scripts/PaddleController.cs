@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class PaddleController {
 	protected Paddle paddle;
 
@@ -10,12 +6,12 @@ public abstract class PaddleController {
 	}
 
 	public void Reset() {
-		this.paddle.Reset();
+		paddle.Reset();
 	}
 
 	public void Update() {
 		float speed = GetMovementSpeed();
-		this.paddle.UpdatePosition(speed);
+		paddle.UpdatePosition(speed);
 	}
 
 	protected abstract float GetMovementSpeed();
