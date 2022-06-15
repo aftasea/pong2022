@@ -13,6 +13,7 @@ public class Game : MonoBehaviour {
     private UIScore leftScoreLabel;
     private UIScore rightScoreLabel;
     private WinnerMessage winnerMessage;
+    private GameStateMachine stateMachine;
     [SerializeField]
     private Text restartMessage;
     
@@ -20,15 +21,6 @@ public class Game : MonoBehaviour {
     [SerializeField] private Bounds fieldBounds;
     [SerializeField] private int scoreToWin;
     
-    private enum State {
-        WaitingToStart,
-        Playing,
-        GameOver,
-        RetryMessage,
-    };
-
-    private State state = State.WaitingToStart;
-
     private void Awake() {
         Paddle[] paddles = FindObjectsOfType<Paddle>();
         Assert.IsTrue(paddles.Length == 2, "There are not two paddles in the scene");
@@ -74,77 +66,21 @@ public class Game : MonoBehaviour {
         winnerMessage.Hide();
         
         restartMessage.gameObject.SetActive(false);
+        
+        
+        // State Machine
+        stateMachine = new GameStateMachine(new GameStateMachine.State[] {
+            new WaitingToStartState(ball, score, leftScoreLabel, rightScoreLabel, winnerMessage, restartMessage),
+            new PlayingState(ball, score, leftScoreLabel, rightScoreLabel, leftPaddleController, rightPaddleController, this.scoreToWin),
+            new GameOverState(score, winnerMessage, restartMessage, 2f),
+        });
     }
 
     private void Update() {
-        switch (state) {
-            case State.WaitingToStart:
-                WaitForInput();
-                break;
-            case State.Playing:
-                UpdateGameplay();
-                break;
-            case State.GameOver:
-                winnerMessage.Show(score);
-                StartCoroutine(DelayRestartMessage());
-                state = State.RetryMessage;
-                break;
-            case State.RetryMessage:
-                break;
-        }
-        
-        
+        this.stateMachine.Update();
     }
 
-    private IEnumerator DelayRestartMessage() {
-        yield return new WaitForSeconds(2f);
-        restartMessage.gameObject.SetActive(true);
-        state = State.WaitingToStart;
-    }
-    
-
-    private void WaitForInput() {
-        if (Input.anyKeyDown) {
-            // reset all here
-            ball.Serve();
-            score.Reset();
-            leftScoreLabel.UpdateScore(score.LeftScore);
-            rightScoreLabel.UpdateScore(score.RightScore);
-            winnerMessage.Hide();
-            restartMessage.gameObject.SetActive(false);
-            state = State.Playing;
-        }
-    }
-
-    private void UpdateGameplay() {
-        leftPaddleController.Update();
-        rightPaddleController.Update();
-        ball.UpdatePosition();
-
-        score.Update();
-        if (score.NewPointScoredInThisFrame) {
-            leftScoreLabel.UpdateScore(score.LeftScore);
-            rightScoreLabel.UpdateScore(score.RightScore);
-
-            if (score.LeftScore == scoreToWin || score.RightScore == scoreToWin)
-                state = State.GameOver;
-            else
-                ball.Serve();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Reset();
-        }
-    }
-
-    private void Reset() {
-        leftPaddleController.Reset();
-        rightPaddleController.Reset();
-        ball.Reset();
-    }
-    
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(fieldBounds.center, fieldBounds.size);
     }
