@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaddleController
-{
-    public float GetMovementSpeed(float maxSpeed) {
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            return maxSpeed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            return -maxSpeed * Time.deltaTime;
-        }
+public abstract class PaddleController {
+	protected Paddle paddle;
 
-        return 0f;
-    }
+	protected PaddleController(Paddle paddle) {
+		this.paddle = paddle;
+	}
+
+	public void Reset() {
+		this.paddle.Reset();
+	}
+
+	public void Update() {
+		float speed = GetMovementSpeed();
+		this.paddle.UpdatePosition(speed);
+	}
+
+	protected abstract float GetMovementSpeed();
 }

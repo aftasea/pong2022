@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da48f208bcc64fe3aee9cbe51cbfba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 6
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.1, y: 0.5, z: 1}
@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da48f208bcc64fe3aee9cbe51cbfba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2.4
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.1, y: 0.5, z: 1}
@@ -1584,7 +1584,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768f397504bf34198b44bebea5f07373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  initialSpeed: 5
+  maxSpeed: 10
+  speed: 5
+  hitAcceleration: 0.5
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.075, y: 0.075, z: 1}
@@ -2513,6 +2516,7 @@ MonoBehaviour:
   fieldBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 8.9, y: 5, z: 0}
+  scoreToWin: 10
 --- !u!4 &1562797762
 Transform:
   m_ObjectHideFlags: 0

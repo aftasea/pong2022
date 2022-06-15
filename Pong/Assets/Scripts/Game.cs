@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour {
     private Paddle leftPaddle;
     private Paddle rightPaddle;
+    private PaddleController leftPaddleController;
+    private PaddleController rightPaddleController;
     private Ball ball;
     private Score score;
     private UIScore leftScoreLabel;
@@ -42,11 +44,20 @@ public class Game : MonoBehaviour {
         }
         
         float fieldHalfHeight = this.fieldBounds.extents.y; 
-        this.leftPaddle.Init(fieldHalfHeight, new PaddleController());
-        this.rightPaddle.Init(fieldHalfHeight, new PaddleController());
+        this.leftPaddle.Init(fieldHalfHeight);
+        this.rightPaddle.Init(fieldHalfHeight);
+        
+        
+        
         ball = FindObjectOfType<Ball>();
         ball.Init(fieldHalfHeight, this.leftPaddle, this.rightPaddle);
+        
+        
+        leftPaddleController = new PlayerPaddleController(this.leftPaddle);
+        rightPaddleController = new AiPadlleController(this.rightPaddle, this.ball);
+        
 
+        // UI
         score = new Score();
         score.Init(this.ball, this.fieldBounds.extents.x);
         
@@ -108,8 +119,8 @@ public class Game : MonoBehaviour {
     }
 
     private void UpdateGameplay() {
-        this.leftPaddle.UpdatePosition();
-        this.rightPaddle.UpdatePosition();
+        this.leftPaddleController.Update();
+        this.rightPaddleController.Update();
         this.ball.UpdatePosition();
 
         this.score.Update();
@@ -129,8 +140,8 @@ public class Game : MonoBehaviour {
     }
 
     private void Reset() {
-        this.leftPaddle.Reset();
-        this.rightPaddle.Reset();
+        this.leftPaddleController.Reset();
+        this.rightPaddleController.Reset();
         this.ball.Reset();
     }
     

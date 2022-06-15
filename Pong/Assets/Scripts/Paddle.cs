@@ -14,15 +14,15 @@ public class Paddle : MonoBehaviour {
 
     private Vector3 initialPosition;
 
-    private PaddleController controller;
+    // private PlayerPaddleController controller;
 
     private void Start() {
     }
 
-    public void Init(float screenHeight, PaddleController paddleController) {
+    public void Init(float screenHeight/*, PlayerPaddleController playerPaddleController*/) {
         gameFieldTop = screenHeight;
         gameFieldBottom = -screenHeight;
-        controller = paddleController;
+        // controller = playerPaddleController;
         this.initialPosition = transform.position;
     }
 
@@ -30,8 +30,8 @@ public class Paddle : MonoBehaviour {
         transform.position = this.initialPosition;
     }
 
-    public void UpdatePosition() {
-        float movementSpeed = controller.GetMovementSpeed(speed);
+    public void UpdatePosition(float movementSpeed) {
+        // float movementSpeed = controller.GetMovementSpeed(speed);
         if (!Mathf.Approximately(movementSpeed, 0f)) {
             Vector3 currentPos = transform.position;
             float nextPosY = currentPos.y + movementSpeed;

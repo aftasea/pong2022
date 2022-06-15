@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public float speed = 10f;
+    public float initialSpeed = 5f;
+    public float maxSpeed = 10f;
+    public float speed;
+    public float hitAcceleration = 0.1f;
     public Bounds bounds;
     
     private float gameFieldTop;
@@ -31,10 +34,12 @@ public class Ball : MonoBehaviour
         this.direction = direction.normalized;
         this.leftPaddle = leftPaddle;
         this.rightPaddle = rightPaddle;
+        this.Reset();
     }
 
     public void Reset() {
         transform.position = Vector3.zero;
+        this.speed = this.initialSpeed;
     }
 
     public void UpdatePosition() {
@@ -79,6 +84,7 @@ public class Ball : MonoBehaviour
 
     private void BounceX() {
         this.direction.x *= -1;
+        speed = Mathf.Min(speed + hitAcceleration, this.maxSpeed);
     }
     
     void OnDrawGizmos()
