@@ -16,8 +16,9 @@ public class Ball : MonoBehaviour
     
     private Paddle leftPaddle;
     private Paddle rightPaddle;
-    
-    
+    private bool canMove;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,9 @@ public class Ball : MonoBehaviour
     }
 
     public void UpdatePosition() {
+        if (!this.canMove)
+            return;
+        
         float distance = this.speed * Time.deltaTime;
         Vector3 currentPos = transform.position;
         Vector3 targetPos = currentPos + (this.direction * distance);
@@ -80,6 +84,17 @@ public class Ball : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(/*transform.position + */bounds.center, bounds.size);
+        Gizmos.DrawWireCube(bounds.center, bounds.size);
+    }
+
+    public void Serve() {
+        StartCoroutine(ServeCo());
+    }
+
+    private IEnumerator ServeCo() {
+        this.canMove = false;
+        this.Reset();
+        yield return new WaitForSeconds(1.5f);
+        this.canMove = true;
     }
 }

@@ -97,9 +97,11 @@ public class Game : MonoBehaviour {
     private void WaitForInput() {
         if (Input.anyKeyDown) {
             // reset all here
+            this.ball.Serve();
             score.Reset();
             leftScoreLabel.UpdateScore(this.score.LeftScore);
             this.rightScoreLabel.UpdateScore(this.score.RightScore);
+            this.winnerMessage.Hide();
             this.restartMessage.gameObject.SetActive(false);
             state = State.Playing;
         }
@@ -118,7 +120,7 @@ public class Game : MonoBehaviour {
             if (this.score.LeftScore == scoreToWin || this.score.RightScore == scoreToWin)
                 this.state = State.GameOver;
             else
-                this.Reset();
+                this.ball.Serve();
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
