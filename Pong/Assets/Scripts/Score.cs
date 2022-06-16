@@ -2,18 +2,18 @@ public class Score : IScoreProvider
 {
     private Ball ball;
     private float fieldWidthHalf;
+    
+    private short leftScore;
+    private short rightScore;
+
+    public short GetLeftScore() => leftScore;
+
+    public short GetRightScore() => rightScore;
 
     public bool NewPointScoredInThisFrame {
         get;
         private set;
     }
-
-    private int leftScore;
-    private int rightScore;
-
-    public int GetLeftScore() => leftScore;
-
-    public int GetRightScore() => rightScore;
 
     public Score(Ball ball, float fieldWidthHalf) {
         this.ball = ball;

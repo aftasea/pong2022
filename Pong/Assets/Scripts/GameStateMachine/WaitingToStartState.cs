@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaitingToStartState : GameStateMachine.IState {
+public class WaitingToStartState : GameStateMachine.IState
+{
 	private Ball ball;
 	private Score score;
 	private UIScore leftScoreLabel;

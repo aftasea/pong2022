@@ -7,7 +7,6 @@ public class GameOverState : GameStateMachine.IState
     private WinnerMessage winnerMessage;
     private Text restartMessage;
     private float delayForRestartMessage;
-
     private float timeLeftForRestartMessage;
 	
     public GameOverState(

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayingState : GameStateMachine.IState
 {
     private Ball ball;
@@ -8,7 +6,7 @@ public class PlayingState : GameStateMachine.IState
     private UIScore rightScoreLabel;
     private PaddleController leftPaddleController;
     private PaddleController rightPaddleController;
-    private int scoreToWin;
+    private short scoreToWin;
 	
     public PlayingState(
         Ball ball,
@@ -17,7 +15,7 @@ public class PlayingState : GameStateMachine.IState
         UIScore rightScoreLabel,
         PaddleController leftPaddleController,
         PaddleController rightPaddleController,
-        int scoreToWin
+        short scoreToWin
         )
     {
         this.ball = ball;

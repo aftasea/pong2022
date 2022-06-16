@@ -1,5 +1,5 @@
 
 public interface IScoreProvider {
-    public int GetLeftScore();
-    public int GetRightScore();
+    public short GetLeftScore();
+    public short GetRightScore();
 }

@@ -19,8 +19,8 @@ public class Game : MonoBehaviour {
     private GameStateMachine stateMachine;
     
     [Header("Config")]
-    [SerializeField] private int scoreToWin;
-    [SerializeField] private int delayForRestartMessage;
+    [SerializeField] private short scoreToWin;
+    [SerializeField] private float delayForRestartMessage;
     [SerializeField] private Bounds fieldBounds;
     
     private void Awake() {

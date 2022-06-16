@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateMachine {
-    
+public class GameStateMachine
+{
     public enum StateId {
         WaitingToStart,
         Playing,

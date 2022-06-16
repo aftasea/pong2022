@@ -10,14 +10,15 @@ public class Ball : MonoBehaviour
     [SerializeField] private Vector3 direction = new Vector3(1f, 0f, 0f);
     [SerializeField] public Bounds bounds;
     
+    private Paddle leftPaddle;
+    private Paddle rightPaddle;
+    
     private const float collisionCorrectionOffset = 0.01f;
     
     private float speed;
     private float gameFieldTop;
     private float gameFieldBottom;
     
-    private Paddle leftPaddle;
-    private Paddle rightPaddle;
     private bool canMove;
     
     public void Init(float screenHeight, Paddle leftPaddle, Paddle rightPaddle) {
