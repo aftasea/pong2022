@@ -24,31 +24,40 @@ public class Game : MonoBehaviour {
     [SerializeField] private Bounds fieldBounds;
     
     private void Awake() {
-        float fieldHalfHeight = fieldBounds.extents.y; 
+        InitGameplayActors();
+        InitUI();
+        InitGameStates();
+    }
+
+    private void InitGameplayActors() {
+        float fieldHalfHeight = fieldBounds.extents.y;
         leftPaddle.Init(fieldHalfHeight);
         rightPaddle.Init(fieldHalfHeight);
-        
+
         ball.Init(fieldHalfHeight, leftPaddle, rightPaddle);
-        
+
         leftPaddleController = new PlayerPaddleController(leftPaddle);
         rightPaddleController = new AiPaddleController(rightPaddle, ball);
-        
-        // UI
+    }
+
+    private void InitUI() {
         score = new Score();
         score.Init(ball, fieldBounds.extents.x);
         winnerMessage.Hide();
         restartMessage.gameObject.SetActive(false);
-        
-        // State Machine
+    }
+
+    private void InitGameStates() {
         stateMachine = new GameStateMachine(new GameStateMachine.IState[] {
             new WaitingToStartState(ball, score, leftScoreLabel, rightScoreLabel, winnerMessage, restartMessage),
-            new PlayingState(ball, score, leftScoreLabel, rightScoreLabel, leftPaddleController, rightPaddleController, this.scoreToWin),
+            new PlayingState(ball, score, leftScoreLabel, rightScoreLabel, leftPaddleController, rightPaddleController,
+                scoreToWin),
             new GameOverState(score, winnerMessage, restartMessage, delayForRestartMessage),
         });
     }
 
     private void Update() {
-        this.stateMachine.Update();
+        stateMachine.Update();
     }
 
     void OnDrawGizmos() {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayingState : GameStateMachine.IState
@@ -60,7 +58,7 @@ public class PlayingState : GameStateMachine.IState
         }
     }
 
-    private bool IsGameOver => score.LeftScore == scoreToWin || score.RightScore == scoreToWin;
+    private bool IsGameOver => score.LeftScore >= scoreToWin || score.RightScore >= scoreToWin;
 
     private void Reset() {
 #if UNITY_EDITOR

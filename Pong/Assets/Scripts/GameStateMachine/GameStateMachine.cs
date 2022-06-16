@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,13 +28,13 @@ public class GameStateMachine {
                 this.states.Add(key, state);
         }
 
-        this.currentState = states[0];
+        currentState = states[0];
     }
 
     public void ChangeState(StateId stateId) {
-        if (this.states.ContainsKey(stateId)) {
-            this.currentState = this.states[stateId];
-            this.currentState.OnEnter();
+        if (states.ContainsKey(stateId)) {
+            currentState = states[stateId];
+            currentState.OnEnter();
         }
         else {
             Debug.LogError($"State key not found: {stateId}");
@@ -43,6 +42,6 @@ public class GameStateMachine {
     }
 
     public void Update() {
-        this.currentState?.Execute(this);
+        currentState?.Execute(this);
     }
 }

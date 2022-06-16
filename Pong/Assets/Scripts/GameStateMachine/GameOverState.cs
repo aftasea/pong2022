@@ -26,13 +26,13 @@ public class GameOverState : GameStateMachine.IState
 
     public void OnEnter() {
         winnerMessage.Show(score);
-        this.timeLeftForRestartMessage = delayForRestartMessage;
+        timeLeftForRestartMessage = delayForRestartMessage;
     }
 
     public void Execute(GameStateMachine stateMachine) {
-        this.timeLeftForRestartMessage -= Time.deltaTime;
+        timeLeftForRestartMessage -= Time.deltaTime;
         
-        if (this.timeLeftForRestartMessage < 0f) {
+        if (timeLeftForRestartMessage < 0f) {
             restartMessage.gameObject.SetActive(true);
             stateMachine.ChangeState(GameStateMachine.StateId.WaitingToStart);
         }
