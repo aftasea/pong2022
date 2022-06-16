@@ -9,7 +9,7 @@ public class AiPaddleController : PaddleController {
     
     protected override float GetMovementSpeed() {
         float dirY = ball.transform.position.y - paddle.transform.position.y;
-        float deltaSpeed = paddle.speed * Time.deltaTime;
+        float deltaSpeed = paddle.maxSpeed * Time.deltaTime;
         return Mathf.Clamp(dirY, -deltaSpeed, deltaSpeed);
     }
 }

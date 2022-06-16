@@ -1,10 +1,8 @@
 using UnityEngine;
 
 public class Paddle : MonoBehaviour {
-    public float speed = 10f;
+    public float maxSpeed = 10f;
     public Bounds bounds;
-
-    private const float HalfHeight = 0.5f;
     
     private float gameFieldTop;
     private float gameFieldBottom;
@@ -25,14 +23,14 @@ public class Paddle : MonoBehaviour {
         if (!Mathf.Approximately(movementSpeed, 0f)) {
             Vector3 currentPos = transform.position;
             float nextPosY = currentPos.y + movementSpeed;
-            currentPos.y = Mathf.Clamp(nextPosY, gameFieldBottom + HalfHeight, gameFieldTop - HalfHeight);
+            float paddleHalfHeight = bounds.extents.y;
+            currentPos.y = Mathf.Clamp(nextPosY, gameFieldBottom + paddleHalfHeight, gameFieldTop - paddleHalfHeight);
             transform.position = currentPos;
             bounds.center = currentPos;
         }
     }
     
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(bounds.center, bounds.size);
     }

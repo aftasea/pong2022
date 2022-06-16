@@ -7,10 +7,10 @@ public class PlayerPaddleController : PaddleController
 
     protected override float GetMovementSpeed() {
         if (Input.GetKey(KeyCode.UpArrow)) {
-            return paddle.speed * Time.deltaTime;
+            return paddle.maxSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.DownArrow)) {
-            return -paddle.speed * Time.deltaTime;
+            return -paddle.maxSpeed * Time.deltaTime;
         }
 
         return 0f;

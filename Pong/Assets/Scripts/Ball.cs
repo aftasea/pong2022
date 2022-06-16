@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public float initialSpeed = 5f;
-    public float maxSpeed = 10f;
-    public float hitAcceleration = 0.1f;
-    public Bounds bounds;
+    [Header("Config")]
+    [SerializeField] public float initialSpeed = 5f;
+    [SerializeField] public float maxSpeed = 10f;
+    [SerializeField] public float hitAcceleration = 0.1f;
+    [SerializeField] private Vector3 direction = new Vector3(1f, 0f, 0f);
+    [SerializeField] public Bounds bounds;
+    
+    private const float collisionCorrectionOffset = 0.01f;
     
     private float speed;
     private float gameFieldTop;
     private float gameFieldBottom;
-    private const float collisionCorrectionOffset = 0.01f;
-
-    [SerializeField] private Vector3 direction = new Vector3(1f, 0f, 0f);
     
     private Paddle leftPaddle;
     private Paddle rightPaddle;
@@ -99,8 +100,7 @@ public class Ball : MonoBehaviour
     }
     
     
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos()  {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
