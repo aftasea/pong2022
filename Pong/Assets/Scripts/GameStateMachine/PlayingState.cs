@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayingState : GameStateMachine.State
+public class PlayingState : GameStateMachine.IState
 {
     private Ball ball;
     private Score score;

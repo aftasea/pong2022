@@ -10,21 +10,25 @@ public class GameStateMachine {
         GameOver,
     }
     
-    public interface State {
+    public interface IState {
         public StateId GetId();
         public void OnEnter();
         public void Execute(GameStateMachine stateMachine);
     }
 
-    private Dictionary<StateId, State> states;
-    private State currentState;
+    private Dictionary<StateId, IState> states;
+    private IState currentState;
     
-    public GameStateMachine(State[] states) {
-        this.states = new Dictionary<StateId, State>();
+    public GameStateMachine(IState[] states) {
+        this.states = new Dictionary<StateId, IState>();
         foreach (var state in states) {
-            // TODO: handle exceptions 
-            this.states.Add(state.GetId(), state);
+            StateId key = state.GetId();
+            if (this.states.ContainsKey(key))
+                Debug.LogError($"State {key} was already added to the GameStateMachine");
+            else
+                this.states.Add(key, state);
         }
+
         this.currentState = states[0];
     }
 

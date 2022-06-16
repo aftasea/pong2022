@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverState : GameStateMachine.State
+public class GameOverState : GameStateMachine.IState
 {
     private Score score;
     private WinnerMessage winnerMessage;

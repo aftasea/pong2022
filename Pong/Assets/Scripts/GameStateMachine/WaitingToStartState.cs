@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaitingToStartState : GameStateMachine.State {
+public class WaitingToStartState : GameStateMachine.IState {
 	private Ball ball;
 	private Score score;
 	private UIScore leftScoreLabel;

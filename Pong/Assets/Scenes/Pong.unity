@@ -2512,11 +2512,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432d6d1ea766d4bbba1f343b5f717cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftPaddle: {fileID: 124400668}
+  rightPaddle: {fileID: 550948083}
+  ball: {fileID: 821036596}
+  leftScoreLabel: {fileID: 2008920221}
+  rightScoreLabel: {fileID: 767586348}
+  winnerMessage: {fileID: 739907745}
   restartMessage: {fileID: 684986774}
+  scoreToWin: 10
+  delayForRestartMessage: 2
   fieldBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 8.9, y: 5, z: 0}
-  scoreToWin: 10
 --- !u!4 &1562797762
 Transform:
   m_ObjectHideFlags: 0
