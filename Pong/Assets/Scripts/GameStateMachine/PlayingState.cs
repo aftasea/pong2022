@@ -40,16 +40,12 @@ public class PlayingState : GameStateMachine.IState
         score.Update();
         
         CheckScoreState(stateMachine);
-
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Reset();
-        }
     }
 
     private void CheckScoreState(GameStateMachine stateMachine) {
         if (score.NewPointScoredInThisFrame) {
-            leftScoreLabel.UpdateScore(score.LeftScore);
-            rightScoreLabel.UpdateScore(score.RightScore);
+            leftScoreLabel.UpdateScore(score.GetLeftScore());
+            rightScoreLabel.UpdateScore(score.GetRightScore());
 
             if (IsGameOver)
                 stateMachine.ChangeState(GameStateMachine.StateId.GameOver);
@@ -58,13 +54,5 @@ public class PlayingState : GameStateMachine.IState
         }
     }
 
-    private bool IsGameOver => score.LeftScore >= scoreToWin || score.RightScore >= scoreToWin;
-
-    private void Reset() {
-#if UNITY_EDITOR
-        leftPaddleController.Reset();
-        rightPaddleController.Reset();
-        ball.Reset();
-#endif
-    }
+    private bool IsGameOver => score.GetLeftScore() >= scoreToWin || score.GetRightScore() >= scoreToWin;
 }

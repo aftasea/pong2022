@@ -41,8 +41,7 @@ public class Game : MonoBehaviour {
     }
 
     private void InitUI() {
-        score = new Score();
-        score.Init(ball, fieldBounds.extents.x);
+        score = new Score(ball, fieldBounds.extents.x);
         winnerMessage.Hide();
         restartMessage.gameObject.SetActive(false);
     }
@@ -50,8 +49,7 @@ public class Game : MonoBehaviour {
     private void InitGameStates() {
         stateMachine = new GameStateMachine(new GameStateMachine.IState[] {
             new WaitingToStartState(ball, score, leftScoreLabel, rightScoreLabel, winnerMessage, restartMessage),
-            new PlayingState(ball, score, leftScoreLabel, rightScoreLabel, leftPaddleController, rightPaddleController,
-                scoreToWin),
+            new PlayingState(ball, score, leftScoreLabel, rightScoreLabel, leftPaddleController, rightPaddleController, scoreToWin),
             new GameOverState(score, winnerMessage, restartMessage, delayForRestartMessage),
         });
     }

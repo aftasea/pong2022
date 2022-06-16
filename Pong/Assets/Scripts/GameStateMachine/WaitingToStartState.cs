@@ -33,8 +33,8 @@ public class WaitingToStartState : GameStateMachine.IState {
 		if (Input.anyKeyDown) {
 			ball.Serve();
 			score.Reset();
-			leftScoreLabel.UpdateScore(score.LeftScore);
-			rightScoreLabel.UpdateScore(score.RightScore);
+			leftScoreLabel.UpdateScore(score.GetLeftScore());
+			rightScoreLabel.UpdateScore(score.GetRightScore());
 			winnerMessage.Hide();
 			restartMessage.gameObject.SetActive(false);
 			

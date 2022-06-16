@@ -1,5 +1,5 @@
-public class Score {
-    
+public class Score : IScoreProvider
+{
     private Ball ball;
     private float fieldWidthHalf;
 
@@ -8,33 +8,31 @@ public class Score {
         private set;
     }
 
-    public int LeftScore {
-        get;
-        private set;
-    }
-    public int RightScore {
-        get;
-        private set;
-    }
+    private int leftScore;
+    private int rightScore;
 
-    public void Init(Ball ball, float fieldWidthHalf) {
+    public int GetLeftScore() => leftScore;
+
+    public int GetRightScore() => rightScore;
+
+    public Score(Ball ball, float fieldWidthHalf) {
         this.ball = ball;
         this.fieldWidthHalf = fieldWidthHalf;
     }
 
     public void Reset() {
-        LeftScore = 0;
-        RightScore = 0;
+        leftScore = 0;
+        rightScore = 0;
     }
     
     public void Update() {
         NewPointScoredInThisFrame = false;
         if (ball.transform.position.x > fieldWidthHalf) {
-            LeftScore++;
+            leftScore++;
             NewPointScoredInThisFrame = true;
         }
         else if (ball.transform.position.x < -fieldWidthHalf) {
-            RightScore++;
+            rightScore++;
             NewPointScoredInThisFrame = true;
         }
     }
